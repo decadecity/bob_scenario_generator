@@ -37,4 +37,11 @@ describe("Generator", function() {
 		assert.deepEqual(generator.get_types([available_aircraft[3]], ['early']), ['outlandish']);
 	});
 
+	it("should generate a list of possible scenarios", function() {
+		let aircraft = [];
+		let periods = [];
+		let types = [];
+		assert.deepEqual(generator.get_scenario(aircraft, periods, types), []);
+	});
+
 });
