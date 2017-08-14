@@ -1,0 +1,16 @@
+{
+  "name": "bob_scenarios",
+  "version": "1.0.0",
+  "description": "Battle of Britain Scenario Generator",
+  "main": "index.js",
+  "scripts": {
+      "test": "mocha --watch",
+      "lint": "eslint app/**.js test/**.js"
+  },
+  "author": "",
+  "license": "NLPL",
+  "devDependencies": {
+    "lodash": "^4.17.4",
+    "mocha": "^3.5.0"
+  }
+}
