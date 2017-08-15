@@ -6,11 +6,17 @@ const generator = require('../app/generator');
 const aircraft = require('../app/aircraft');
 
 const available_aircraft = [
-  aircraft.new(1, true, 'Hurricane', 3, 2, 2, 0, 3, 1, 3, 1, 2, [11, 12]),
-  aircraft.new(2, true, 'Spitfire', 3, 3, 3, 3, 3, 1, 3, 2, 0, [11, 12]),
-  aircraft.new(3, true, 'Defiant', 3, 1, 0, 0, 2, 1, 3, 1, 3, 2, [11, 12]),
-  aircraft.new(5, true, 'Gladiator', 1, 0, 0, 0, 0, 3, 1, 0, 2, [11, 12]),
-  aircraft.new(11, false, 'He 111', 3, 3, 3, 3, 3, 1, 3, 2, 0),
+  aircraft.new(1, true, 'Hurricane', 3, 2, 2, 0, 3, 1, 3, 1, 2, [11, 12, 13, 14, 15]),
+  aircraft.new(2, true, 'Spitfire', 3, 3, 3, 3, 3, 1, 3, 2, 0, [11, 12, 13, 14, 15]),
+  aircraft.new(3, true, 'Defiant', 3, 1, 0, 0, 2, 1, 3, 1, 3, 2, [11, 12, 12, 13]),
+  aircraft.new(4, true, 'Blenheim', 1, 0, 0, 2, 1, 3, 1, 3, 2, [11, 12, 13, 14]),
+  aircraft.new(5, true, 'Gladiator', 1, 0, 0, 0, 0, 3, 1, 0, 2, [11, 12, 13, 15]),
+  aircraft.new(6, true, 'Whirlwind', 1, 1, 1, 0, 0, 3, 1, 0, 2, [11, 12, 13, 15]),
+  aircraft.new(11, false, 'Ju 87 Stuka', 2, 1, 0, 0, 2, 2, 2, 0, 0),
+  aircraft.new(12, false, 'Do 17 Flying Pencil', 3, 2, 1, 0, 3, 2, 3, 0, 3),
+  aircraft.new(13, false, 'He 111', 3, 3, 3, 3, 3, 1, 3, 2, 0),
+  aircraft.new(14, false, 'Ju 88', 1, 2, 3, 3, 2, 2, 3, 3, 1),
+  aircraft.new(15, false, 'Ar 196', 2, 2, 2, 0, 0, 2, 0, 0, 3),
 ];
 
 describe("Generator", function() {
@@ -24,6 +30,8 @@ describe("Generator", function() {
 			available_aircraft[1],
 			available_aircraft[2],
 			available_aircraft[3],
+			available_aircraft[4],
+			available_aircraft[5],
 		]);
 	});
 
@@ -34,7 +42,7 @@ describe("Generator", function() {
 
 	it("should list the available types", function() {
 		assert.deepEqual(generator.get_types([available_aircraft[0]], ['early']), ['common', 'outlandish']);
-		assert.deepEqual(generator.get_types([available_aircraft[3]], ['early']), ['outlandish']);
+		assert.deepEqual(generator.get_types([available_aircraft[5]], ['early']), ['outlandish']);
 	});
 
 	it("should generate a list of possible scenarios", function() {
