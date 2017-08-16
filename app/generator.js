@@ -35,3 +35,23 @@ module.exports.get_types = function(aircraft, periods) {
 		}, [])
 	);
 };
+
+/*
+Scenario generator algorithm.
+
+aircraft, periods, types
+
+find the intersection of periods and available aircraft.
+weighted list of those periods by aircraft - pick one.
+
+find aircraft weighted for that period.
+multiply each aircraft's common and outlandish scores to weight the list of aircraft.
+put each aircraft in the number of times for each scenario.
+now we have an aircraft and a scenario.
+
+find the opponents weighted for that period.
+weight for common and outlandish.
+weight for the scenario.
+pick the opponent.
+
+*/

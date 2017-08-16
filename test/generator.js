@@ -50,6 +50,8 @@ describe("Generator", function() {
 		let periods = [];
 		let types = [];
 		assert.deepEqual(generator.get_scenario(aircraft, periods, types), []);
+
+		//Aircraft, Scenario, Opponent, (period)
 	});
 
 });
