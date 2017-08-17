@@ -2,15 +2,16 @@ const _ = require('lodash');
 
 const periods_avail = ['early', 'mid', 'late', 'blitz'];
 const types_avail = ['common', 'outlandish'];
+const scenarios_avail = ['intercept', 'night', 'recon'];
 
-module.exports.get_playable = function(aircraft) {
-	return _.filter(aircraft, function(a) { return a.playable; });
+module.exports.get_playable = aircraft => {
+	return _.filter(aircraft, a => a.playable );
 };
 
-module.exports.get_periods = function(aircraft) {
+module.exports.get_periods = aircraft => {
 	return _.uniq(
-		_.reduce(aircraft, function(periods, a) {
-			periods_avail.forEach(function(period) {
+		_.reduce(aircraft, (periods, a) => {
+			periods_avail.forEach(period => {
 				if (a[period]) {
 					periods.push(period);
 				}
@@ -20,12 +21,12 @@ module.exports.get_periods = function(aircraft) {
 	);
 };
 
-module.exports.get_types = function(aircraft, periods) {
+module.exports.get_types = (aircraft, periods) => {
 	return _.uniq(
-		_.reduce(aircraft, function(types, a) {
-			periods.forEach(function(period) {
+		_.reduce(aircraft, (types, a) => {
+			periods.forEach(period => {
 				if (a[period]) {
-					types_avail.forEach(function(type) {
+					types_avail.forEach(type => {
 						if (a[type]) {
 							types.push(type);
 						};
@@ -37,11 +38,11 @@ module.exports.get_types = function(aircraft, periods) {
 	);
 };
 
-module.exports._get_weighted_periods = function(aircraft) {
+module.exports._get_weighted_periods = aircraft => {
 	let periods = [];
-	aircraft.forEach(function(a) {
-		periods_avail.forEach(function(period) {
-			_.times(a[period], function() {
+	aircraft.forEach(a => {
+		periods_avail.forEach(period => {
+			_.times(a[period], () => {
 				periods.push(period);
 			});
 		});
@@ -49,33 +50,41 @@ module.exports._get_weighted_periods = function(aircraft) {
 	return periods;
 };
 
-module.exports._get_aircraft_weighted_by_period = function(aircraft, period) {
+module.exports._get_aircraft_weighted_by_period = (aircraft, period) => {
 	let weighted = [];
-	aircraft.forEach(function(a) {
-		_.times(a[period], function() {
+	aircraft.forEach(a => {
+		_.times(a[period], () => {
 			weighted.push(a);
 		});
 	});
 	return weighted;
 };
 
-module.exports._get_aircraft_weighted_by_type = function(aircraft, common, outlandish) {
+module.exports._get_aircraft_weighted_by_type = (aircraft, common, outlandish) => {
 	let weighted = [];
-	aircraft.forEach(function(a) {
-		_.times((a['common'] * common) + (a['outlandish'] * outlandish), function() {
+	aircraft.forEach(a => {
+		_.times((a['common'] * common) + (a['outlandish'] * outlandish), () => {
 			weighted.push(a);
 		});
 	});
 	return weighted;
 };
 
-module.exports._get_opponents = function(aircraft, available_aircraft) {
-	return _.filter(available_aircraft, function(a) {
+module.exports._get_opponents = (aircraft, available_aircraft) => {
+	return _.filter(available_aircraft, a => {
 		return aircraft.opponents.includes(a.id) ;
 	})
 };
 
-
+module.exports._get_weighted_scenarios = (aircraft_1, aircraft_2) => {
+	let scenarios = [];
+	scenarios_avail.forEach(scenario => {
+		_.times(aircraft_1[scenario] * aircraft_2[scenario], () => {
+			scenarios.push(scenario);
+		})
+	});
+	return scenarios;
+};
 
 /*
 Scenario generator algorithm.
@@ -93,8 +102,9 @@ rand: pick the aircraft.
 X find the opponents
 X weight the opponents for that period.
 X weight for common and outlandish.
-pick the opponent.
+rand: pick the opponent.
 
-weight the scenarios for both aircraft and pick one.
+X weight the scenarios for both aircraft
+rand: pick the scenario.
 
 */

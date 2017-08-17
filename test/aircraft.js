@@ -4,8 +4,8 @@ const assert = require('assert');
 
 const aircraft = require('../app/aircraft');
 
-describe("Aircraft", function() {
-  it("should have the correct properties", function() {
+describe("Aircraft", () => {
+  it("should have the correct properties", () => {
     const result_aircraft = {
       id: 1,
       playable: true,

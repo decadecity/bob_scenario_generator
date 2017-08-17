@@ -1,4 +1,4 @@
-module.exports.new = function(
+module.exports.new = (
   id,
   playable,
   name,
@@ -12,8 +12,8 @@ module.exports.new = function(
   night,
   recon,
   opponents
-) {
-	return {
+) => {
+  return {
     id: id,
     playable: playable,
     name: name,

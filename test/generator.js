@@ -20,11 +20,11 @@ const available_aircraft = [
   /* 10 */ aircraft.new(15, false, 'Ar 196',     2, 2, 2, 0,  0, 2,  0, 0, 3  ),
 ];
 
-describe("Generator", function() {
+describe("Generator", () => {
 	let playable;
 	let periods;
 
-	it("should return a list of playable aircraft", function() {
+	it("should return a list of playable aircraft", () => {
 		playable = generator.get_playable(available_aircraft);
 		assert.deepEqual(playable, [
 			available_aircraft[0],
@@ -36,19 +36,19 @@ describe("Generator", function() {
 		]);
 	});
 
-	it("should list the available periods", function() {
+	it("should list the available periods", () => {
 		periods = ['early', 'mid', 'late', 'blitz'];
 		assert.deepEqual(generator.get_periods(playable), periods);
 	});
 
-	it("should list the available types", function() {
+	it("should list the available types", () => {
 		assert.deepEqual(generator.get_types([available_aircraft[0]], ['early']), ['common', 'outlandish']);
 		assert.deepEqual(generator.get_types([available_aircraft[5]], ['early']), ['outlandish']);
 	});
 
-	describe("Sub routines", function() {
+	describe("Sub routines", () => {
 
-		it("should generate a weighted list of available periods from aircraft", function() {
+		it("should generate a weighted list of available periods from aircraft", () => {
 			assert.deepEqual(generator._get_weighted_periods([available_aircraft[0]]),
 				['early', 'early', 'early', 'mid', 'mid', 'late', 'late']
 			);
@@ -57,7 +57,7 @@ describe("Generator", function() {
 			);
 		});
 
-		it("should generate a weighted list of aircraft for a given period", function() {
+		it("should generate a weighted list of aircraft for a given period", () => {
 			assert.deepEqual(
 				generator._get_aircraft_weighted_by_period(
 					[available_aircraft[0], available_aircraft[3]],
@@ -75,7 +75,7 @@ describe("Generator", function() {
 			);
 		});
 
-		it("should generate a weighted list of aircraft by type", function() {
+		it("should generate a weighted list of aircraft by type", () => {
 			const hurricane = available_aircraft[0];
 			const gladiator = available_aircraft[4];
 
@@ -92,21 +92,19 @@ describe("Generator", function() {
 			);
 		});
 
-		it("should get the opponents of a selected aircraft", function() {
+		it("should get the opponents of a selected aircraft", () => {
 			assert.deepEqual(generator._get_opponents(available_aircraft[2], available_aircraft), [
 				available_aircraft[6], available_aircraft[7], available_aircraft[8],
 			]);
 		});
 
-	});
-
-	xit("should generate a list of possible scenarios", function() {
-			let aircraft = [];
-			let periods = [];
-			let types = [];
-			assert.deepEqual(generator.get_scenario(aircraft, periods, types), []);
-
-			//Aircraft, Scenario, Opponent, (period)
+		it("should get the scenarios for a pair of aircraft", () => {
+			assert.deepEqual(
+				generator._get_weighted_scenarios(available_aircraft[1], available_aircraft[7]),
+				['intercept', 'intercept', 'intercept', 'intercept', 'intercept', 'intercept', 'intercept', 'intercept', 'intercept', ]
+			);
 		});
+
+	});
 
 });
