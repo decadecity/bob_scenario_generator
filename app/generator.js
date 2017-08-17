@@ -1,11 +1,12 @@
 const _ = require('lodash');
 
+const periods_avail = ['early', 'mid', 'late', 'blitz'];
+
 module.exports.get_playable = function(aircraft) {
 	return _.filter(aircraft, function(a) { return a.playable; });
 };
 
 module.exports.get_periods = function(aircraft) {
-	const periods_avail = ['early', 'mid', 'late', 'blitz'];
 	return _.uniq(
 		_.reduce(aircraft, function(periods, a) {
 			periods_avail.forEach(function(period) {
@@ -36,13 +37,26 @@ module.exports.get_types = function(aircraft, periods) {
 	);
 };
 
+module.exports._get_weighted_periods = function(aircraft) {
+	let periods = [];
+	aircraft.forEach(function(a) {
+		periods_avail.forEach(function(period) {
+			for (let i = 0; i < a[period]; i++) {
+				periods.push(period);
+			}
+		});
+	});
+	return periods;
+};
+
 /*
 Scenario generator algorithm.
 
 aircraft, periods, types
 
-find the intersection of periods and available aircraft.
-weighted list of those periods by aircraft - pick one.
+X find the intersection of periods and available aircraft.
+X weighted list of those periods by aircraft
+ - pick one.
 
 find aircraft weighted for that period.
 multiply each aircraft's common and outlandish scores to weight the list of aircraft.

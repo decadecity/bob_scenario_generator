@@ -45,13 +45,26 @@ describe("Generator", function() {
 		assert.deepEqual(generator.get_types([available_aircraft[5]], ['early']), ['outlandish']);
 	});
 
-	it("should generate a list of possible scenarios", function() {
-		let aircraft = [];
-		let periods = [];
-		let types = [];
-		assert.deepEqual(generator.get_scenario(aircraft, periods, types), []);
+	describe("Sub routines", function() {
 
-		//Aircraft, Scenario, Opponent, (period)
+		it("should generate a weighted list of available periods from aircraft", function() {
+			assert.deepEqual(generator._get_weighted_periods([available_aircraft[0]]),
+				['early', 'early', 'early', 'mid', 'mid', 'late', 'late']
+			);
+			assert.deepEqual(generator._get_weighted_periods([available_aircraft[0], available_aircraft[3]]),
+				['early', 'early', 'early', 'mid', 'mid', 'late', 'late', 'early', 'blitz', 'blitz']
+			);
+		});
+
 	});
+
+	xit("should generate a list of possible scenarios", function() {
+			let aircraft = [];
+			let periods = [];
+			let types = [];
+			assert.deepEqual(generator.get_scenario(aircraft, periods, types), []);
+
+			//Aircraft, Scenario, Opponent, (period)
+		});
 
 });
