@@ -41,9 +41,9 @@ module.exports._get_weighted_periods = function(aircraft) {
 	let periods = [];
 	aircraft.forEach(function(a) {
 		periods_avail.forEach(function(period) {
-			for (let i = 0; i < a[period]; i++) {
+			_.times(a[period], function() {
 				periods.push(period);
-			}
+			});
 		});
 	});
 	return periods;
@@ -52,9 +52,9 @@ module.exports._get_weighted_periods = function(aircraft) {
 module.exports._get_aircraft_weighted_by_period = function(aircraft, period) {
 	let weighted = [];
 	aircraft.forEach(function(a) {
-		for (let i = 0; i < a[period]; i++) {
+		_.times(a[period], function() {
 			weighted.push(a);
-		}
+		});
 	});
 	return weighted;
 };
@@ -62,12 +62,9 @@ module.exports._get_aircraft_weighted_by_period = function(aircraft, period) {
 module.exports._get_aircraft_weighted_by_type = function(aircraft, common, outlandish) {
 	let weighted = [];
 	aircraft.forEach(function(a) {
-		for (let i = 0; i < a['common'] * common; i++) {
+		_.times((a['common'] * common) + (a['outlandish'] * outlandish), function() {
 			weighted.push(a);
-		}
-		for (let i = 0; i < a['outlandish'] * outlandish; i++) {
-			weighted.push(a);
-		}
+		});
 	});
 	return weighted;
 };
@@ -79,11 +76,11 @@ aircraft, periods, types
 
 X find the intersection of periods and available aircraft.
 X weighted list of those periods by aircraft
- - pick one.
+rand: pick a period.
 
 X find aircraft weighted for that period.
 X multiply each aircraft's common and outlandish scores to weight the list of aircraft.
-pick the aircraft.
+rand: pick the aircraft.
 
 find the opponents weighted for that period.
 weight for common and outlandish.
