@@ -1,6 +1,7 @@
 const _ = require('lodash');
 
 const periods_avail = ['early', 'mid', 'late', 'blitz'];
+const types_avail = ['common', 'outlandish'];
 
 module.exports.get_playable = function(aircraft) {
 	return _.filter(aircraft, function(a) { return a.playable; });
@@ -20,7 +21,6 @@ module.exports.get_periods = function(aircraft) {
 };
 
 module.exports.get_types = function(aircraft, periods) {
-	const types_avail = ['common', 'outlandish'];
 	return _.uniq(
 		_.reduce(aircraft, function(types, a) {
 			periods.forEach(function(period) {
@@ -49,6 +49,29 @@ module.exports._get_weighted_periods = function(aircraft) {
 	return periods;
 };
 
+module.exports._get_aircraft_weighted_by_period = function(aircraft, period) {
+	let weighted = [];
+	aircraft.forEach(function(a) {
+		for (let i = 0; i < a[period]; i++) {
+			weighted.push(a);
+		}
+	});
+	return weighted;
+};
+
+module.exports._get_aircraft_weighted_by_type = function(aircraft, common, outlandish) {
+	let weighted = [];
+	aircraft.forEach(function(a) {
+		for (let i = 0; i < a['common'] * common; i++) {
+			weighted.push(a);
+		}
+		for (let i = 0; i < a['outlandish'] * outlandish; i++) {
+			weighted.push(a);
+		}
+	});
+	return weighted;
+};
+
 /*
 Scenario generator algorithm.
 
@@ -58,8 +81,8 @@ X find the intersection of periods and available aircraft.
 X weighted list of those periods by aircraft
  - pick one.
 
-find aircraft weighted for that period.
-multiply each aircraft's common and outlandish scores to weight the list of aircraft.
+X find aircraft weighted for that period.
+X multiply each aircraft's common and outlandish scores to weight the list of aircraft.
 pick the aircraft.
 
 find the opponents weighted for that period.
