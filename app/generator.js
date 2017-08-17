@@ -69,6 +69,14 @@ module.exports._get_aircraft_weighted_by_type = function(aircraft, common, outla
 	return weighted;
 };
 
+module.exports._get_opponents = function(aircraft, available_aircraft) {
+	return _.filter(available_aircraft, function(a) {
+		return aircraft.opponents.includes(a.id) ;
+	})
+};
+
+
+
 /*
 Scenario generator algorithm.
 
@@ -82,8 +90,9 @@ X find aircraft weighted for that period.
 X multiply each aircraft's common and outlandish scores to weight the list of aircraft.
 rand: pick the aircraft.
 
-find the opponents weighted for that period.
-weight for common and outlandish.
+X find the opponents
+X weight the opponents for that period.
+X weight for common and outlandish.
 pick the opponent.
 
 weight the scenarios for both aircraft and pick one.

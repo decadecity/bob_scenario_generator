@@ -6,18 +6,18 @@ const generator = require('../app/generator');
 const aircraft = require('../app/aircraft');
 
 const available_aircraft = [
-  /*  i                 id  play?  Name           e  m  l  b   c  o   i  n  r  Opponents */
-  /*  0 */ aircraft.new(1,  true,  'Hurricane',   3, 2, 2, 0,  3, 1,  3, 1, 2, [11, 12, 13, 14, 15]),
-  /*  1 */ aircraft.new(2,  true,  'Spitfire',    3, 3, 3, 3,  3, 1,  3, 2, 0, [11, 12, 13, 14, 15]),
-  /*  2 */ aircraft.new(3,  true,  'Defiant',     3, 1, 0, 0,  2, 1,  3, 1, 3, [11, 12, 12, 13]),
-  /*  3 */ aircraft.new(4,  true,  'Blenheim',    1, 0, 0, 2,  1, 3,  1, 3, 2, [11, 12, 13, 14]),
-  /*  4 */ aircraft.new(5,  true,  'Gladiator',   1, 0, 0, 0,  0, 3,  1, 0, 2, [11, 12, 13, 15]),
-  /*  5 */ aircraft.new(6,  true,  'Whirlwind',   1, 1, 1, 0,  0, 3,  1, 0, 2, [11, 12, 13, 15]),
-  /*  6 */ aircraft.new(11, false, 'Ju 87 Stuka', 2, 1, 0, 0,  2, 2,  2, 0, 0  ),
-  /*  7 */ aircraft.new(12, false, 'Do 17',       3, 2, 1, 0,  3, 2,  3, 0, 3  ),
-  /*  8 */ aircraft.new(13, false, 'He 111',      3, 3, 3, 3,  3, 1,  3, 2, 0  ),
-  /*  9 */ aircraft.new(14, false, 'Ju 88',       1, 2, 3, 3,  2, 2,  3, 3, 1  ),
-  /* 10 */ aircraft.new(15, false, 'Ar 196',      2, 2, 2, 0,  0, 2,  0, 0, 3  ),
+  /*  i                 id  play?  Name          e  m  l  b   c  o   i  n  r  Opponents */
+  /*  0 */ aircraft.new(1,  true,  'Hurricane',  3, 2, 2, 0,  3, 1,  3, 1, 2, [11, 12, 13, 14, 15]),
+  /*  1 */ aircraft.new(2,  true,  'Spitfire',   3, 3, 3, 3,  3, 1,  3, 2, 0, [11, 12, 13, 14, 15]),
+  /*  2 */ aircraft.new(3,  true,  'Defiant',    3, 1, 0, 0,  2, 1,  3, 1, 3, [11, 12, 13]),
+  /*  3 */ aircraft.new(4,  true,  'Blenheim',   1, 0, 0, 2,  1, 3,  1, 3, 2, [11, 12, 13, 14]),
+  /*  4 */ aircraft.new(5,  true,  'Gladiator',  1, 0, 0, 0,  0, 3,  1, 0, 2, [11, 12, 13, 15]),
+  /*  5 */ aircraft.new(6,  true,  'Whirlwind',  1, 1, 1, 0,  0, 3,  1, 0, 2, [11, 12, 13, 15]),
+  /*  6 */ aircraft.new(11, false, 'Ju 87',      2, 1, 0, 0,  2, 2,  2, 0, 0  ),
+  /*  7 */ aircraft.new(12, false, 'Do 17',      3, 2, 1, 0,  3, 2,  3, 0, 3  ),
+  /*  8 */ aircraft.new(13, false, 'He 111',     3, 3, 3, 3,  3, 1,  3, 2, 0  ),
+  /*  9 */ aircraft.new(14, false, 'Ju 88',      1, 2, 3, 3,  2, 2,  3, 3, 1  ),
+  /* 10 */ aircraft.new(15, false, 'Ar 196',     2, 2, 2, 0,  0, 2,  0, 0, 3  ),
 ];
 
 describe("Generator", function() {
@@ -90,6 +90,12 @@ describe("Generator", function() {
 					gladiator, gladiator, gladiator, gladiator, gladiator, gladiator,
 				]
 			);
+		});
+
+		it("should get the opponents of a selected aircraft", function() {
+			assert.deepEqual(generator._get_opponents(available_aircraft[2], available_aircraft), [
+				available_aircraft[6], available_aircraft[7], available_aircraft[8],
+			]);
 		});
 
 	});
