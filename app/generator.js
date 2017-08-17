@@ -4,22 +4,9 @@ const periods_avail = ['early', 'mid', 'late', 'blitz'];
 const types_avail = ['common', 'outlandish'];
 const scenarios_avail = ['intercept', 'night', 'recon'];
 
-module.exports.get_playable = aircraft => {
-	return _.filter(aircraft, a => a.playable );
-};
+module.exports.get_playable = aircraft => _.filter(aircraft, a => a.playable);
 
-module.exports.get_periods = aircraft => {
-	return _.uniq(
-		_.reduce(aircraft, (periods, a) => {
-			periods_avail.forEach(period => {
-				if (a[period]) {
-					periods.push(period);
-				}
-			});
-			return periods;
-		}, [])
-	);
-};
+module.exports.get_periods = aircraft => _.uniq(module.exports._get_weighted_periods(aircraft));
 
 module.exports.get_types = (aircraft, periods) => {
 	return _.uniq(
@@ -71,9 +58,7 @@ module.exports._get_aircraft_weighted_by_type = (aircraft, common, outlandish) =
 };
 
 module.exports._get_opponents = (aircraft, available_aircraft) => {
-	return _.filter(available_aircraft, a => {
-		return aircraft.opponents.includes(a.id) ;
-	})
+	return _.filter(available_aircraft, a => aircraft.opponents.includes(a.id));
 };
 
 module.exports._get_weighted_scenarios = (aircraft_1, aircraft_2) => {
@@ -84,6 +69,29 @@ module.exports._get_weighted_scenarios = (aircraft_1, aircraft_2) => {
 		})
 	});
 	return scenarios;
+};
+
+module.exports.get_scenario = (available_aircraft, aircraft, outlandish, common) => {
+	const period = _.sample(module.exports._get_weighted_periods(aircraft));
+	//console.log(period);
+
+	aircraft = module.exports._get_aircraft_weighted_by_period(aircraft, period);
+	//console.log(aircraft);
+	aircraft = module.exports._get_aircraft_weighted_by_type(aircraft, outlandish, common);
+	//console.log(aircraft);
+	let a = _.sample(aircraft);
+	//console.log(a);
+
+	let opponents = module.exports._get_opponents(a, available_aircraft);
+	//console.log(opponents);
+	opponents = module.exports._get_aircraft_weighted_by_period(opponents, period);
+	opponents = module.exports._get_aircraft_weighted_by_type(opponents, outlandish, common);
+	let o = _.sample(opponents);
+
+	let scenario = _.sample(module.exports._get_weighted_scenarios(a, o));
+
+	return [a, o, scenario]
+
 };
 
 /*
