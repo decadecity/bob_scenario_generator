@@ -71,48 +71,19 @@ module.exports._get_weighted_scenarios = (aircraft_1, aircraft_2) => {
 	return scenarios;
 };
 
+get_aircraft = (aircraft, period, outlandish, common) => {
+	aircraft = module.exports._get_aircraft_weighted_by_period(aircraft, period);
+	aircraft = module.exports._get_aircraft_weighted_by_type(aircraft, outlandish, common);
+	return _.sample(aircraft);
+}
+
 module.exports.get_scenario = (available_aircraft, aircraft, outlandish, common) => {
 	const period = _.sample(module.exports._get_weighted_periods(aircraft));
-	//console.log(period);
 
-	aircraft = module.exports._get_aircraft_weighted_by_period(aircraft, period);
-	//console.log(aircraft);
-	aircraft = module.exports._get_aircraft_weighted_by_type(aircraft, outlandish, common);
-	//console.log(aircraft);
-	let a = _.sample(aircraft);
-	//console.log(a);
-
-	let opponents = module.exports._get_opponents(a);
-	//console.log(opponents);
-	opponents = module.exports._get_aircraft_weighted_by_period(opponents, period);
-	opponents = module.exports._get_aircraft_weighted_by_type(opponents, outlandish, common);
-	let o = _.sample(opponents);
-
-	let scenario = _.sample(module.exports._get_weighted_scenarios(a, o));
+	const a = get_aircraft(aircraft, period, outlandish, common);
+	const o = get_aircraft(a.opponents, period, outlandish, common);
+	const scenario = _.sample(module.exports._get_weighted_scenarios(a, o));
 
 	return [a, o, scenario]
 
 };
-
-/*
-Scenario generator algorithm.
-
-aircraft, periods, types
-
-X find the intersection of periods and available aircraft.
-X weighted list of those periods by aircraft
-rand: pick a period.
-
-X find aircraft weighted for that period.
-X multiply each aircraft's common and outlandish scores to weight the list of aircraft.
-rand: pick the aircraft.
-
-X find the opponents
-X weight the opponents for that period.
-X weight for common and outlandish.
-rand: pick the opponent.
-
-X weight the scenarios for both aircraft
-rand: pick the scenario.
-
-*/
