@@ -57,8 +57,8 @@ module.exports._get_aircraft_weighted_by_type = (aircraft, common, outlandish) =
 	return weighted;
 };
 
-module.exports._get_opponents = (aircraft, available_aircraft) => {
-	return _.filter(available_aircraft, a => aircraft.opponents.includes(a.id));
+module.exports._get_opponents = (aircraft) => {
+	return aircraft.opponents;
 };
 
 module.exports._get_weighted_scenarios = (aircraft_1, aircraft_2) => {
@@ -82,7 +82,7 @@ module.exports.get_scenario = (available_aircraft, aircraft, outlandish, common)
 	let a = _.sample(aircraft);
 	//console.log(a);
 
-	let opponents = module.exports._get_opponents(a, available_aircraft);
+	let opponents = module.exports._get_opponents(a);
 	//console.log(opponents);
 	opponents = module.exports._get_aircraft_weighted_by_period(opponents, period);
 	opponents = module.exports._get_aircraft_weighted_by_type(opponents, outlandish, common);
